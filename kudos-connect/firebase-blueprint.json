@@ -1,0 +1,45 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "A user of the Kudos Connect platform.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The unique identifier for the user." },
+        "username": { "type": "string", "description": "The display name of the user." },
+        "email": { "type": "string", "description": "The email address of the user." },
+        "role": { "type": "string", "enum": ["admin", "user"], "description": "The role of the user." },
+        "photoURL": { "type": "string", "description": "The URL of the user's profile picture." },
+        "college": { "type": "string", "description": "The college or department the user belongs to." }
+      },
+      "required": ["uid", "username", "email", "role"]
+    },
+    "Kudos": {
+      "title": "Kudos",
+      "description": "A message of appreciation sent from one user to another.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "The unique identifier for the kudos." },
+        "senderId": { "type": "string", "description": "The UID of the sender." },
+        "senderName": { "type": "string", "description": "The name of the sender." },
+        "receiverId": { "type": "string", "description": "The UID of the receiver." },
+        "receiverName": { "type": "string", "description": "The name of the receiver." },
+        "receiverCollege": { "type": "string", "description": "The college of the receiver at the time." },
+        "message": { "type": "string", "description": "The message of appreciation." },
+        "createdAt": { "type": "string", "format": "date-time", "description": "The timestamp when the kudos was sent." },
+        "isVisible": { "type": "boolean", "description": "Whether the kudos is visible in the public feed." }
+      },
+      "required": ["senderId", "senderName", "receiverId", "receiverName", "message", "createdAt", "isVisible"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Collection of user profiles."
+    },
+    "/kudos/{kudosId}": {
+      "schema": "Kudos",
+      "description": "Collection of kudos messages."
+    }
+  }
+}

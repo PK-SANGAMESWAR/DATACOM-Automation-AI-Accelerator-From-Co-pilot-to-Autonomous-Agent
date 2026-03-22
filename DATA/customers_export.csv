@@ -1,0 +1,6 @@
+customer_id,name,email,join_date,total_spent,transaction_count
+C001,John Smith,john.smith@email.com,2023-01-15,376.0,3
+C002,Jane Doe,jane.doe@email.com,2023-02-20,290.5,3
+C003,Bob Johnson,bob.johnson@email.com,2023-03-10,225.75,2
+C004,Alice Brown,alice.brown@email.com,2023-04-05,89.99,1
+C005,Charlie Wilson,charlie.wilson@email.com,2023-05-12 ,300.0,1

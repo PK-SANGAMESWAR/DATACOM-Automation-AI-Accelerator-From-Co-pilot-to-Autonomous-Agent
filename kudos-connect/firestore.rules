@@ -1,0 +1,106 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users
+    // Document ID: userId (Auth UID)
+    // Fields:
+    //   - uid: string (required)
+    //   - username: string (required, 1-50 chars)
+    //   - email: string (required, valid email)
+    //   - role: string (required, 'admin' or 'user')
+    //   - photoURL: string (optional, valid URL)
+    //
+    // Collection: kudos
+    // Document ID: auto-generated
+    // Fields:
+    //   - senderId: string (required, matches auth.uid)
+    //   - senderName: string (required, 1-50 chars)
+    //   - receiverId: string (required)
+    //   - receiverName: string (required, 1-50 chars)
+    //   - message: string (required, 1-500 chars)
+    //   - createdAt: timestamp (required)
+    //   - isVisible: bool (required)
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isAuthenticated() &&
+        (get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin' ||
+          ((request.auth.token.email == "sangameswarpk@gmail.com" || request.auth.token.email == "sanguchachu@gmail.com") && request.auth.token.email_verified == true));
+    }
+
+    function isValidEmail(email) {
+      return email is string && email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$");
+    }
+
+    function isValidUrl(url) {
+      return url is string && (url.matches("^https://.*") || url.matches("^http://.*"));
+    }
+
+    // ===============================================================
+    // Domain Validators
+    // ===============================================================
+
+    function isValidUser(data, userId) {
+      return data.keys().hasAll(['uid', 'username', 'email', 'role']) &&
+             (data.uid == request.auth.uid || isAdmin()) &&
+             data.uid == userId &&
+             data.username is string && data.username.size() >= 1 && data.username.size() <= 50 &&
+             isValidEmail(data.email) &&
+             data.role in ['admin', 'user'] &&
+             (!('photoURL' in data) || isValidUrl(data.photoURL)) &&
+             (!('college' in data) || (data.college is string && data.college.size() <= 100));
+    }
+
+    function isValidKudos(data) {
+      return data.keys().hasAll(['senderId', 'senderName', 'receiverId', 'receiverName', 'message', 'createdAt', 'isVisible']) &&
+             data.senderId == request.auth.uid &&
+             data.senderName is string && data.senderName.size() >= 1 && data.senderName.size() <= 50 &&
+             data.receiverId is string &&
+             data.receiverName is string && data.receiverName.size() >= 1 && data.receiverName.size() <= 50 &&
+             (!('receiverCollege' in data) || (data.receiverCollege is string && data.receiverCollege.size() <= 100)) &&
+             data.message is string && data.message.size() >= 1 && data.message.size() <= 500 &&
+             data.createdAt is timestamp &&
+             data.isVisible is bool;
+    }
+
+    // ===============================================================
+    // Rules
+    // ===============================================================
+
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && isValidUser(request.resource.data, userId) && (isOwner(userId) || isAdmin());
+      allow update: if isAuthenticated() && isValidUser(request.resource.data, userId) && (isOwner(userId) || isAdmin());
+    }
+
+    match /kudos/{kudosId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && isValidKudos(request.resource.data) && request.resource.data.isVisible == true;
+      allow update: if isAuthenticated() && (
+        // Admins can toggle visibility or moderate
+        (isAdmin() && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['isVisible'])) ||
+        // Senders can update their own kudos message if it's still visible
+        (resource.data.senderId == request.auth.uid && isValidKudos(request.resource.data) && resource.data.isVisible == true)
+      );
+      allow delete: if isAdmin();
+    }
+  }
+}

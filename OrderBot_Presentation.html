@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>OrderBot: Automating Fulfillment</title>
+    <!-- Reveal.js basic styles -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reset.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/theme/simple.min.css" id="theme">
+
+    <style>
+        .reveal h1, .reveal h2, .reveal h3 {
+            color: #2c3e50;
+            text-transform: none;
+        }
+        .reveal section img { background: none; border: none; box-shadow: none; }
+        .mermaid { margin: auto; }
+        .pain-point { color: #e74c3c; font-weight: bold; }
+        .benefit { color: #27ae60; font-weight: bold; }
+        .text-start { text-align: left; }
+    </style>
+</head>
+<body>
+    <div class="reveal">
+        <div class="slides">
+
+            <!-- Title Slide -->
+            <section>
+                <h2>From Bottleneck to Autonomous Delivery</h2>
+                <h4 style="color:#7f8c8d">Introducing OrderBot AI</h4>
+                <p><small>Prepared for the Head of Operations</small></p>
+            </section>
+
+            <!-- Slide 1 -->
+            <section>
+                <h3>Slide 1: The Problem</h3>
+                <h4 style="color:#7f8c8d">Our Current Order Process Is a Bottleneck</h4>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
+                    <div style="width: 50%;">
+                        <img src="images/bottleneck_process.png" alt="Process Bottleneck" style="max-height: 250px; border-radius: 8px;">
+                    </div>
+                    <div class="text-start" style="font-size: 0.6em; width: 50%;">
+                        <p>The manual intervention required for every incoming order slows us down and scales poorly.</p>
+                        <ul>
+                            <li><span class="pain-point">Manual Data Entry:</span> Reading PDFs leads to high overhead and transcription errors.</li>
+                            <li><span class="pain-point">Context Switching:</span> Bouncing between Email, Salesforce, and Sheets disrupts focus.</li>
+                            <li><span class="pain-point">Long Delays:</span> Problematic orders bottleneck in an operations inbox rather than bouncing back to Sales instantly.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="mermaid" style="font-size: 0.6em; background: #fff; border-radius: 10px; padding: 10px;">
+                graph TD
+                    A(Shared Inbox) --> B{Ops Human}
+                    B -->|Manual PDF Read| C[Check Salesforce]
+                    C -->|Check Status| D[Check G-Sheets Inventory]
+                    D --> E{Decision}
+                    E -->|<span class="pain-point">Manual Draft</span>| F[Email Customer]
+                    E -->|<span class="pain-point">Manual Draft</span>| G[Email Warehouse]
+                    E -->|<span class="pain-point">Delay</span>| H[Email Sales Rep exception]
+                    
+                    style B fill:#f9d0c4,stroke:#e74c3c
+                    style C fill:#f9d0c4,stroke:#e74c3c
+                    style D fill:#f9d0c4,stroke:#e74c3c
+                    style F fill:#f9d0c4,stroke:#e74c3c
+                </div>
+            </section>
+
+            <!-- Slide 2 -->
+            <section>
+                <h3>Slide 2: The Solution</h3>
+                <h4 style="color:#7f8c8d">Introducing 'OrderBot'</h4>
+                <div style="display: flex; align-items: center; justify-content: center; gap: 20px;">
+                    <div style="width: 40%;">
+                        <img src="images/orderbot_ai.png" alt="OrderBot AI" style="max-height: 250px; border-radius: 8px;">
+                    </div>
+                    <div class="text-start" style="font-size: 0.7em; width: 60%;">
+                        <p>OrderBot is an <strong>Autonomous AI Agent</strong> that connects directly to our systems via API tools to instantly execute the decision tree 24/7.</p>
+                    </div>
+                </div>
+                
+                <div class="mermaid" style="font-size: 0.6em; background: #fff; border-radius: 10px; padding: 10px;">
+                graph TD
+                    A(Shared Inbox) -->|Webhook| B{OrderBot Agent}
+                    B -->|Perception Tool| C[Extract PDF API]
+                    C -->|Perception Tool| D[Query Salesforce API]
+                    D -->|Perception Tool| E[Query Sheets API]
+                    E -->|Planning logic| F{AI Decision Engine}
+                    F -->|Action Tool| G[Send Automated Customer email]
+                    F -->|Action Tool| H[Send Automated Warehouse email]
+                    F -->|Action Tool| I[Send Instant Sales Reject]
+                    
+                    style B fill:#d4edda,stroke:#28a745
+                    style C fill:#d4edda,stroke:#28a745
+                    style D fill:#d4edda,stroke:#28a745
+                    style E fill:#d4edda,stroke:#28a745
+                </div>
+            </section>
+
+            <!-- Slide 3 -->
+            <section>
+                <h3>Slide 3: Business Impact & Next Steps</h3>
+                <div style="text-align: center; margin-bottom: 10px;">
+                    <img src="images/business_success.png" alt="Business Success" style="max-height: 200px; border-radius: 8px;">
+                </div>
+                <div class="text-start" style="font-size: 0.7em; display:flex; justify-content:space-between">
+                    <div style="width: 45%;">
+                        <h4>Target Business Outcomes</h4>
+                        <ul>
+                            <li><span class="benefit">Reduced Costs:</span> Operations staff time drops from 10 minutes per order to 0.</li>
+                            <li><span class="benefit">Speed:</span> SLA drops from hours/days to < 5 minutes.</li>
+                            <li><span class="benefit">No Errors:</span> System-to-system translation guarantees 99.5% accuracy.</li>
+                            <li><span class="benefit">Scale:</span> Unlimited throughput during peak sales seasons.</li>
+                        </ul>
+                    </div>
+                    <div style="width: 45%; border-left: 2px solid #ddd; padding-left: 20px;">
+                        <h4>Recommended Next Steps</h4>
+                        <ol>
+                            <li><strong>Phase 1: Read-Only PoC (2 weeks)</strong></li>
+                            <p style="font-size: 0.7em; margin-top:0;">Deploy OrderBot to "Shadow Mode" to passively read emails and draft responses without actually sending them. Ops humans verify accuracy.</p>
+                            <li><strong>Phase 2: Hybrid Rollout</strong></li>
+                            <p style="font-size: 0.7em; margin-top:0;">OrderBot handles unambiguous "Happy Path" orders autonomously; exceptions route to human.</p>
+                            <li><strong>Phase 3: Autonomous Tuning</strong></li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.3.1/reveal.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            center: true,
+            hash: true,
+        });
+        mermaid.initialize({ startOnLoad: true, theme: 'base' });
+    </script>
+</body>
+</html>

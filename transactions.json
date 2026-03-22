@@ -1,0 +1,75 @@
+{
+  "generated_at": "2026-03-22T13:22:22.777282",
+  "transactions": [
+    {
+      "transaction_id": "T001",
+      "customer_id": "C001",
+      "amount": 150.5,
+      "date": "2024-01-10",
+      "category": "electronics"
+    },
+    {
+      "transaction_id": "T002",
+      "customer_id": "C002",
+      "amount": 75.25,
+      "date": "2024-01-11",
+      "category": "clothing"
+    },
+    {
+      "transaction_id": "T003",
+      "customer_id": "C001",
+      "amount": 200.0,
+      "date": "2024-01-12",
+      "category": "electronics"
+    },
+    {
+      "transaction_id": "T004",
+      "customer_id": "C003",
+      "amount": 45.75,
+      "date": "2024-01-13",
+      "category": "food"
+    },
+    {
+      "transaction_id": "T005",
+      "customer_id": "C002",
+      "amount": 120.0,
+      "date": "2024-01-14",
+      "category": "clothing"
+    },
+    {
+      "transaction_id": "T006",
+      "customer_id": "C004",
+      "amount": 89.99,
+      "date": "2024-01-15",
+      "category": "books"
+    },
+    {
+      "transaction_id": "T007",
+      "customer_id": "C005",
+      "amount": 300.0,
+      "date": "2024-01-16",
+      "category": "electronics"
+    },
+    {
+      "transaction_id": "T008",
+      "customer_id": "C001",
+      "amount": 25.5,
+      "date": "2024-01-17",
+      "category": "food"
+    },
+    {
+      "transaction_id": "T009",
+      "customer_id": "C003",
+      "amount": 180.0,
+      "date": "2024-01-18",
+      "category": "clothing"
+    },
+    {
+      "transaction_id": "T010",
+      "customer_id": "C002",
+      "amount": 95.25,
+      "date": "2024-01-19",
+      "category": "books "
+    }
+  ]
+}
