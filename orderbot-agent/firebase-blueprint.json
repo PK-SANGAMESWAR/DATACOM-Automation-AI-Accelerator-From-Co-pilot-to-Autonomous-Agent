@@ -1,0 +1,57 @@
+{
+  "entities": {
+    "Customer": {
+      "title": "Customer",
+      "description": "Customer information for credit checks",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "tier": { "type": "string", "enum": ["Basic", "Gold", "Platinum"] },
+        "creditLimit": { "type": "number" }
+      },
+      "required": ["id", "name", "email", "tier", "creditLimit"]
+    },
+    "Inventory": {
+      "title": "Inventory",
+      "description": "Product stock levels",
+      "type": "object",
+      "properties": {
+        "sku": { "type": "string" },
+        "name": { "type": "string" },
+        "stock": { "type": "number" },
+        "price": { "type": "number" }
+      },
+      "required": ["sku", "name", "stock", "price"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Processed order records",
+      "type": "object",
+      "properties": {
+        "orderId": { "type": "string" },
+        "customerEmail": { "type": "string" },
+        "sku": { "type": "string" },
+        "quantity": { "type": "number" },
+        "status": { "type": "string", "enum": ["Approved", "Rejected", "Pending"] },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["orderId", "customerEmail", "sku", "quantity", "status", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/customers/{customerId}": {
+      "schema": "Customer",
+      "description": "Collection of customers"
+    },
+    "/inventory/{sku}": {
+      "schema": "Inventory",
+      "description": "Collection of inventory items"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Collection of processed orders"
+    }
+  }
+}

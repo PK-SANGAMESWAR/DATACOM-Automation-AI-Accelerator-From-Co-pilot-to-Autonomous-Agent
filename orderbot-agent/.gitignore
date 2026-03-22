@@ -1,0 +1,15 @@
+node_modules/
+build/
+dist/
+coverage/
+.DS_Store
+*.log
+.env*
+!.env.example
+
+# Firebase config contains API keys — keep off git
+firebase-applet-config.json
+
+# Generated test artifacts
+sample_purchase_order.pdf
+generate_sample_po.py

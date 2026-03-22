@@ -1,0 +1,5 @@
+{
+  "name": "OrderBot Agent",
+  "description": "Autonomous order fulfillment agent with Salesforce and Google Sheets integration simulation.",
+  "requestFramePermissions": []
+}

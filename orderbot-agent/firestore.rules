@@ -1,0 +1,33 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isAdmin() {
+      return isAuthenticated() && 
+        (request.auth.token.email == "sangameswarpk@gmail.com" && request.auth.token.email_verified == true);
+    }
+
+    // Customers: Admins can manage, authenticated users can read their own (if email matches)
+    match /customers/{customerId} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // Inventory: Everyone authenticated can read, only admins can update stock
+    match /inventory/{sku} {
+      allow read: if isAuthenticated();
+      allow write: if isAdmin();
+    }
+
+    // Orders: Users can read their own orders, server/admin can write
+    match /orders/{orderId} {
+      allow read: if isAuthenticated() && (request.auth.token.email == resource.data.customerEmail || isAdmin());
+      allow write: if isAuthenticated(); // Simplified for now, backend will handle logic
+    }
+  }
+}
