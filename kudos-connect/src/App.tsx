@@ -58,6 +58,7 @@ interface UserProfile {
   role: 'admin' | 'user';
   photoURL?: string;
   college?: string;
+  isManual?: boolean;
 }
 
 interface Kudos {
@@ -354,10 +355,23 @@ export default function App() {
         isManual: true
       });
       
+      // If we opened this from the Kudos modal, select the new colleague
+      if (isModalOpen) {
+        setReceiverId(dummyUid);
+      }
+
       setNewColleagueName('');
       setNewColleagueEmail('');
       setNewColleagueCollege('');
       setIsAddColleagueModalOpen(false);
+      
+      // Success feedback
+      confetti({
+        particleCount: 50,
+        spread: 60,
+        origin: { y: 0.8 },
+        colors: ['#d97706', '#059669']
+      });
     } catch (error) {
       handleFirestoreError(error, OperationType.CREATE, 'users');
     }
@@ -800,57 +814,6 @@ export default function App() {
           </div>
           <Button type="submit" className="w-full">
             Join Kudos Connect
-          </Button>
-        </form>
-      </Modal>
-
-      {/* Add Colleague Modal */}
-      <Modal
-        isOpen={isAddColleagueModalOpen}
-        onClose={() => setIsAddColleagueModalOpen(false)}
-        title="Add New Colleague"
-      >
-        <form onSubmit={handleAddColleague} className="space-y-6">
-          <p className="text-stone-500 text-sm">Manually add a colleague to the directory. They will appear in the list immediately.</p>
-          
-          <div className="space-y-2">
-            <label className="text-sm font-bold text-stone-500 uppercase tracking-wider">Full Name</label>
-            <input 
-              required
-              type="text"
-              placeholder="e.g. Jane Smith"
-              value={newColleagueName}
-              onChange={(e) => setNewColleagueName(e.target.value)}
-              className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-bold text-stone-500 uppercase tracking-wider">Email Address</label>
-            <input 
-              required
-              type="email"
-              placeholder="jane@example.com"
-              value={newColleagueEmail}
-              onChange={(e) => setNewColleagueEmail(e.target.value)}
-              className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label className="text-sm font-bold text-stone-500 uppercase tracking-wider">College / Dept</label>
-            <input 
-              required
-              type="text"
-              placeholder="e.g. Engineering"
-              value={newColleagueCollege}
-              onChange={(e) => setNewColleagueCollege(e.target.value)}
-              className="w-full px-4 py-3 bg-stone-50 border border-stone-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 transition-all"
-            />
-          </div>
-
-          <Button type="submit" className="w-full">
-            Add to Directory
           </Button>
         </form>
       </Modal>
